@@ -1,13 +1,35 @@
-// Local storage helpers for auth, calculations, projects
+// ======================================================
+// CIVIL ENGINEERING PRO SYSTEM - FINAL CLEAN VERSION
+// storage.ts
+// ======================================================
+
+/* =======================
+   TYPES
+======================= */
 
 export type Currency = "USD" | "JOD" | "SAR" | "EUR";
 
+export type UnitSystem = "metric" | "imperial";
+
 export type BuildingType =
-  | "villa"
-  | "apartment"
+  | "residential"
   | "commercial"
   | "industrial"
   | "infrastructure";
+
+export type ConstructionQuality =
+  | "basic"
+  | "standard"
+  | "premium"
+  | "luxury";
+
+export type ProjectStatus =
+  | "planning"
+  | "design"
+  | "foundation"
+  | "structure"
+  | "finishing"
+  | "completed";
 
 export type User = {
   id: string;
@@ -25,7 +47,12 @@ export type Session = {
 export type AppSettings = {
   currency: Currency;
   theme: "light" | "dark";
+  unit: UnitSystem;
 };
+
+/* =======================
+   ENGINEERING DATA
+======================= */
 
 export type CostCalc = {
   id: string;
@@ -36,41 +63,39 @@ export type CostCalc = {
 
   buildingType: BuildingType;
 
-  soilType: "rock" | "sand" | "clay";
-
   area: number;
-  areaUnit: "m2" | "ft2";
-
   floors: number;
 
-  level: "economy" | "medium" | "luxury";
-
-  qualityIndex: number; // 1 - 10
+  quality: ConstructionQuality;
 
   currency: Currency;
 
-  structural: number;
-  finishing: number;
-  electrical: number;
-  plumbing: number;
-  total: number;
+  structuralCost: number;
+  finishingCost: number;
+  electricalCost: number;
+  plumbingCost: number;
+
+  totalCost: number;
 };
 
 export type QuantityCalc = {
   id: string;
   createdAt: number;
-  type: "tile" | "paint" | "concrete";
+
+  type: "concrete" | "steel" | "tile" | "paint";
+
   title: string;
+
   inputs: Record<string, number | string>;
   outputs: Record<string, number | string>;
 };
 
-export type ProjectStatus =
-  | "planning"
-  | "foundation"
-  | "construction"
-  | "finishing"
-  | "completed";
+export type Expense = {
+  id: string;
+  label: string;
+  amount: number;
+  date: string;
+};
 
 export type Project = {
   id: string;
@@ -78,61 +103,56 @@ export type Project = {
 
   name: string;
   location: string;
+
   budget: number;
 
   startDate: string;
+
   progress: number;
+
   status: ProjectStatus;
 
-  priority: "low" | "medium" | "high";
+  quality: ConstructionQuality;
 
   notes: string;
-  engineerNotes?: string;
-  contractor?: string;
 
-  expenses: {
-    id: string;
-    label: string;
-    amount: number;
-    date: string;
-  }[];
+  expenses: Expense[];
 };
 
-export const STATUS_LABEL: Record<ProjectStatus, string> = {
-  planning: "تخطيط",
-  foundation: "أساسات",
-  construction: "بناء",
-  finishing: "تشطيب",
-  completed: "مكتمل",
-};
+/* =======================
+   STORAGE KEYS
+======================= */
 
 const K = {
-  users: "mb_users",
-  session: "mb_session",
-  costs: "mb_costs",
-  quantities: "mb_quantities",
-  projects: "mb_projects",
-  theme: "mb_theme",
-  settings: "mb_settings",
+  users: "ce_users",
+  session: "ce_session",
+  costs: "ce_costs",
+  quantities: "ce_quantities",
+  projects: "ce_projects",
+  settings: "ce_settings",
 };
 
-function read<T>(k: string, fallback: T): T {
+/* =======================
+   HELPERS
+======================= */
+
+function read<T>(key: string, fallback: T): T {
   if (typeof window === "undefined") return fallback;
   try {
-    const v = localStorage.getItem(k);
+    const v = localStorage.getItem(key);
     return v ? (JSON.parse(v) as T) : fallback;
   } catch {
     return fallback;
   }
 }
 
-function write<T>(k: string, v: T) {
+function write<T>(key: string, value: T) {
   if (typeof window === "undefined") return;
-  localStorage.setItem(k, JSON.stringify(v));
+  localStorage.setItem(key, JSON.stringify(value));
 }
 
 /* =======================
-   SETTINGS (NEW)
+   SETTINGS
 ======================= */
 
 export const settings = {
@@ -140,21 +160,24 @@ export const settings = {
     return read<AppSettings>(K.settings, {
       currency: "USD",
       theme: "light",
+      unit: "metric",
     });
   },
 
   setCurrency(currency: Currency) {
     const s = settings.get();
-    s.currency = currency;
-    write(K.settings, s);
+    write(K.settings, { ...s, currency });
   },
 
   setTheme(theme: "light" | "dark") {
     const s = settings.get();
-    s.theme = theme;
-    write(K.settings, s);
-
+    write(K.settings, { ...s, theme });
     document.documentElement.classList.toggle("dark", theme === "dark");
+  },
+
+  setUnit(unit: UnitSystem) {
+    const s = settings.get();
+    write(K.settings, { ...s, unit });
   },
 };
 
@@ -171,7 +194,7 @@ export const auth = {
     const users = read<User[]>(K.users, []);
 
     if (users.some(u => u.email === email)) {
-      throw new Error("هذا البريد مسجل مسبقاً");
+      throw new Error("Email already exists");
     }
 
     const user: User = {
@@ -184,26 +207,22 @@ export const auth = {
     users.push(user);
     write(K.users, users);
 
-    const s: Session = { id: user.id, name, email };
-    write(K.session, s);
+    const session: Session = { id: user.id, name, email };
+    write(K.session, session);
 
-    return s;
+    return session;
   },
 
   login(email: string, password: string): Session {
     const users = read<User[]>(K.users, []);
     const u = users.find(x => x.email === email && x.password === password);
 
-    if (!u) throw new Error("بيانات الدخول غير صحيحة");
+    if (!u) throw new Error("Invalid credentials");
 
-    const s: Session = {
-      id: u.id,
-      name: u.name,
-      email: u.email,
-    };
+    const session: Session = { id: u.id, name: u.name, email: u.email };
+    write(K.session, session);
 
-    write(K.session, s);
-    return s;
+    return session;
   },
 
   logout() {
@@ -214,7 +233,7 @@ export const auth = {
 };
 
 /* =======================
-   COSTS
+   COST ENGINE
 ======================= */
 
 export const costs = {
@@ -224,11 +243,33 @@ export const costs = {
     );
   },
 
-  add(c: Omit<CostCalc, "id" | "createdAt">): CostCalc {
+  add(data: Omit<CostCalc, "id" | "createdAt" | "totalCost">): CostCalc {
+    const multiplier =
+      data.quality === "basic"
+        ? 1
+        : data.quality === "standard"
+        ? 1.2
+        : data.quality === "premium"
+        ? 1.5
+        : 2;
+
+    const structuralCost = data.area * data.floors * 120 * multiplier;
+    const finishingCost = data.area * 80 * multiplier;
+    const electricalCost = data.area * 40;
+    const plumbingCost = data.area * 35;
+
+    const totalCost =
+      structuralCost + finishingCost + electricalCost + plumbingCost;
+
     const item: CostCalc = {
-      ...c,
+      ...data,
       id: crypto.randomUUID(),
       createdAt: Date.now(),
+      structuralCost,
+      finishingCost,
+      electricalCost,
+      plumbingCost,
+      totalCost,
     };
 
     const all = read<CostCalc[]>(K.costs, []);
@@ -244,14 +285,12 @@ export const costs = {
 };
 
 /* =======================
-   QUANTITIES
+   QUANTITY ENGINE
 ======================= */
 
 export const quantities = {
   list(): QuantityCalc[] {
-    return read<QuantityCalc[]>(K.quantities, []).sort(
-      (a, b) => b.createdAt - a.createdAt
-    );
+    return read<QuantityCalc[]>(K.quantities, []);
   },
 
   add(q: Omit<QuantityCalc, "id" | "createdAt">): QuantityCalc {
@@ -267,17 +306,10 @@ export const quantities = {
 
     return item;
   },
-
-  remove(id: string) {
-    write(
-      K.quantities,
-      read<QuantityCalc[]>(K.quantities, []).filter(x => x.id !== id)
-    );
-  },
 };
 
 /* =======================
-   PROJECTS
+   PROJECT ENGINE
 ======================= */
 
 export const projects = {
@@ -287,22 +319,12 @@ export const projects = {
     );
   },
 
-  get(id: string) {
-    return projects.list().find(p => p.id === id);
-  },
-
-  add(
-    p: Omit<
-      Project,
-      "id" | "createdAt" | "progress" | "status" | "expenses"
-    >
-  ): Project {
+  add(p: Omit<Project, "id" | "createdAt" | "progress" | "expenses">): Project {
     const item: Project = {
       ...p,
       id: crypto.randomUUID(),
       createdAt: Date.now(),
       progress: 0,
-      status: "planning",
       expenses: [],
     };
 
@@ -313,57 +335,30 @@ export const projects = {
     return item;
   },
 
-  update(id: string, patch: Partial<Project>) {
+  updateProgress(id: string, progress: number) {
     const all = read<Project[]>(K.projects, []);
-    const i = all.findIndex(p => p.id === id);
+    const p = all.find(x => x.id === id);
 
-    if (i >= 0) {
-      all[i] = { ...all[i], ...patch };
+    if (p) {
+      p.progress = progress;
       write(K.projects, all);
     }
   },
-
-  remove(id: string) {
-    write(
-      K.projects,
-      read<Project[]>(K.projects, []).filter(p => p.id !== id)
-    );
-  },
 };
 
 /* =======================
-   THEME (SYNCED)
+   FORMAT PRICE (CURRENCY)
 ======================= */
 
-export const theme = {
-  get(): "light" | "dark" {
-    return settings.get().theme;
-  },
+export function formatPrice(value: number): string {
+  const currency = settings.get().currency;
 
-  set(t: "light" | "dark") {
-    settings.setTheme(t);
-  },
+  const map: Record<Currency, string> = {
+    USD: "$",
+    JOD: "د.أ",
+    SAR: "ر.س",
+    EUR: "€",
+  };
 
-  toggle() {
-    const current = theme.get();
-    settings.setTheme(current === "dark" ? "light" : "dark");
-  },
-};
-
-/* =======================
-   FORMATTERS
-======================= */
-
-export function formatSAR(n: number): string {
-  return (
-    new Intl.NumberFormat("ar", { maximumFractionDigits: 0 }).format(
-      Math.round(n)
-    ) + " ر.س"
-  );
-}
-
-export function formatNum(n: number, digits = 0): string {
-  return new Intl.NumberFormat("ar", {
-    maximumFractionDigits: digits,
-  }).format(n);
+  return `${new Intl.NumberFormat("en").format(value)} ${map[currency]}`;
 }
