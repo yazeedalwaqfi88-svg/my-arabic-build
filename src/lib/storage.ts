@@ -1,5 +1,5 @@
 // ======================================================
-// CIVIL ENGINEERING PRO SYSTEM - FINAL CLEAN VERSION
+// CIVIL ENGINEERING PRO SYSTEM - PRODUCTION VERSION
 // storage.ts
 // ======================================================
 
@@ -35,7 +35,7 @@ export type User = {
   id: string;
   name: string;
   email: string;
-  password: string;
+  password: string; // تُخزن في الـ LocalStorage للـ Demo فقط، وفي التطبيق الحقيقي تُشفر أو تُنقل للـ Backend
 };
 
 export type Session = {
@@ -57,35 +57,25 @@ export type AppSettings = {
 export type CostCalc = {
   id: string;
   createdAt: number;
-
   country: string;
   city: string;
-
   buildingType: BuildingType;
-
   area: number;
   floors: number;
-
   quality: ConstructionQuality;
-
   currency: Currency;
-
   structuralCost: number;
   finishingCost: number;
   electricalCost: number;
   plumbingCost: number;
-
   totalCost: number;
 };
 
 export type QuantityCalc = {
   id: string;
   createdAt: number;
-
   type: "concrete" | "steel" | "tile" | "paint";
-
   title: string;
-
   inputs: Record<string, number | string>;
   outputs: Record<string, number | string>;
 };
@@ -100,22 +90,14 @@ export type Expense = {
 export type Project = {
   id: string;
   createdAt: number;
-
   name: string;
   location: string;
-
   budget: number;
-
   startDate: string;
-
   progress: number;
-
   status: ProjectStatus;
-
   quality: ConstructionQuality;
-
   notes: string;
-
   expenses: Expense[];
 };
 
@@ -172,7 +154,9 @@ export const settings = {
   setTheme(theme: "light" | "dark") {
     const s = settings.get();
     write(K.settings, { ...s, theme });
-    document.documentElement.classList.toggle("dark", theme === "dark");
+    if (typeof document !== "undefined") {
+      document.documentElement.classList.toggle("dark", theme === "dark");
+    }
   },
 
   setUnit(unit: UnitSystem) {
@@ -193,7 +177,7 @@ export const auth = {
   register(name: string, email: string, password: string): Session {
     const users = read<User[]>(K.users, []);
 
-    if (users.some(u => u.email === email)) {
+    if (users.some(u => u.email.toLowerCase() === email.toLowerCase())) {
       throw new Error("Email already exists");
     }
 
@@ -215,7 +199,9 @@ export const auth = {
 
   login(email: string, password: string): Session {
     const users = read<User[]>(K.users, []);
-    const u = users.find(x => x.email === email && x.password === password);
+    const u = users.find(
+      x => x.email.toLowerCase() === email.toLowerCase() && x.password === password
+    );
 
     if (!u) throw new Error("Invalid credentials");
 
@@ -290,7 +276,9 @@ export const costs = {
 
 export const quantities = {
   list(): QuantityCalc[] {
-    return read<QuantityCalc[]>(K.quantities, []);
+    return read<QuantityCalc[]>(K.quantities, []).sort(
+      (a, b) => b.createdAt - a.createdAt
+    );
   },
 
   add(q: Omit<QuantityCalc, "id" | "createdAt">): QuantityCalc {
@@ -305,6 +293,10 @@ export const quantities = {
     write(K.quantities, all);
 
     return item;
+  },
+
+  remove(id: string) {
+    write(K.quantities, read<QuantityCalc[]>(K.quantities, []).filter(x => x.id !== id));
   },
 };
 
@@ -340,9 +332,38 @@ export const projects = {
     const p = all.find(x => x.id === id);
 
     if (p) {
-      p.progress = progress;
+      // التأكد من أن النسبة تقع بين 0 و 100
+      p.progress = Math.min(100, Math.max(0, progress));
+      
+      // تحديث الحالة تلقائياً بناءً على نسبة الإنجاز
+      if (p.progress === 100) {
+        p.status = "completed";
+      } else if (p.progress > 0 && p.status === "planning") {
+        p.status = "structure"; // أو أي حالة منطقية تبدأ بها بعد التخطيط
+      }
+      
       write(K.projects, all);
     }
+  },
+
+  addExpense(projectId: string, expense: Omit<Expense, "id">) {
+    const all = read<Project[]>(K.projects, []);
+    const p = all.find(x => x.id === projectId);
+
+    if (p) {
+      const newExpense: Expense = {
+        ...expense,
+        id: crypto.randomUUID(),
+      };
+      p.expenses.push(newExpense);
+      write(K.projects, all);
+      return newExpense;
+    }
+    throw new Error("Project not found");
+  },
+
+  remove(id: string) {
+    write(K.projects, read<Project[]>(K.projects, []).filter(x => x.id !== id));
   },
 };
 
@@ -353,12 +374,17 @@ export const projects = {
 export function formatPrice(value: number): string {
   const currency = settings.get().currency;
 
-  const map: Record<Currency, string> = {
-    USD: "$",
-    JOD: "د.أ",
-    SAR: "ر.س",
-    EUR: "€",
+  const map: Record<Currency, { symbol: string; position: "before" | "after" }> = {
+    USD: { symbol: "$", position: "before" },
+    JOD: { symbol: " د.أ", position: "after" },
+    SAR: { symbol: " ر.س", position: "after" },
+    EUR: { symbol: "€", position: "before" },
   };
 
-  return `${new Intl.NumberFormat("en").format(value)} ${map[currency]}`;
+  const config = map[currency];
+  const formattedNumber = new Intl.NumberFormat("en-US").format(value);
+
+  return config.position === "before"
+    ? `${config.symbol}${formattedNumber}`
+    : `${formattedNumber}${config.symbol}`;
 }
