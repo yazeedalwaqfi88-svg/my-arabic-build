@@ -401,3 +401,5 @@ export const STATUS_LABEL: Record<ProjectStatus, string> = {
   finishing: "الـتـشـطـيـبـات",
   completed: "مكتمل وتم التسليم",
 };
+export const theme = {};
+export const formatNum = (num: any) => num;
