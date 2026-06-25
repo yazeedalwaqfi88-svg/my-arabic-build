@@ -35,7 +35,7 @@ export type User = {
   id: string;
   name: string;
   email: string;
-  password: string; // تُخزن في الـ LocalStorage للـ Demo فقط، وفي التطبيق الحقيقي تُشفر أو تُنقل للـ Backend
+  password: string;
 };
 
 export type Session = {
@@ -332,16 +332,10 @@ export const projects = {
     const p = all.find(x => x.id === id);
 
     if (p) {
-      // التأكد من أن النسبة تقع بين 0 و 100
       p.progress = Math.min(100, Math.max(0, progress));
-      
-      // تحديث الحالة تلقائياً بناءً على نسبة الإنجاز
       if (p.progress === 100) {
         p.status = "completed";
-      } else if (p.progress > 0 && p.status === "planning") {
-        p.status = "structure"; // أو أي حالة منطقية تبدأ بها بعد التخطيط
       }
-      
       write(K.projects, all);
     }
   },
@@ -388,3 +382,22 @@ export function formatPrice(value: number): string {
     ? `${config.symbol}${formattedNumber}`
     : `${formattedNumber}${config.symbol}`;
 }
+
+/* =======================
+   NETLIFY FIXES (MISSING EXPORTS)
+======================= */
+
+// 1. إضافة دالة تنسيق الريال السعودي خصيصاً للملفات التي تطلبها
+export function formatSAR(value: number): string {
+  return `${new Intl.NumberFormat("en-US").format(value)} ر.س`;
+}
+
+// 2. إضافة كائن التسميات للمشاريع لتطابق الـ ProjectStatus
+export const STATUS_LABEL: Record<ProjectStatus, string> = {
+  planning: "قيد التخطيط",
+  design: "المخططات والهندسة",
+  foundation: "الأساسات والقواعد",
+  structure: "العظم / الهيكل الإنشائي",
+  finishing: "الـتـشـطـيـبـات",
+  completed: "مكتمل وتم التسليم",
+};
