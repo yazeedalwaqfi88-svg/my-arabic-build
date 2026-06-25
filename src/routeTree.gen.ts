@@ -9,38 +9,188 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as ProjectsRouteImport } from './routes/projects'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as GuideRouteImport } from './routes/guide'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CalculatorQuantityRouteImport } from './routes/calculator.quantity'
+import { Route as CalculatorCostRouteImport } from './routes/calculator.cost'
 
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsRoute = ProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuideRoute = GuideRouteImport.update({
+  id: '/guide',
+  path: '/guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssistantRoute = AssistantRouteImport.update({
+  id: '/assistant',
+  path: '/assistant',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CalculatorQuantityRoute = CalculatorQuantityRouteImport.update({
+  id: '/calculator/quantity',
+  path: '/calculator/quantity',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CalculatorCostRoute = CalculatorCostRouteImport.update({
+  id: '/calculator/cost',
+  path: '/calculator/cost',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
+  '/dashboard': typeof DashboardRoute
+  '/guide': typeof GuideRoute
+  '/login': typeof LoginRoute
+  '/projects': typeof ProjectsRoute
+  '/register': typeof RegisterRoute
+  '/calculator/cost': typeof CalculatorCostRoute
+  '/calculator/quantity': typeof CalculatorQuantityRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
+  '/dashboard': typeof DashboardRoute
+  '/guide': typeof GuideRoute
+  '/login': typeof LoginRoute
+  '/projects': typeof ProjectsRoute
+  '/register': typeof RegisterRoute
+  '/calculator/cost': typeof CalculatorCostRoute
+  '/calculator/quantity': typeof CalculatorQuantityRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
+  '/dashboard': typeof DashboardRoute
+  '/guide': typeof GuideRoute
+  '/login': typeof LoginRoute
+  '/projects': typeof ProjectsRoute
+  '/register': typeof RegisterRoute
+  '/calculator/cost': typeof CalculatorCostRoute
+  '/calculator/quantity': typeof CalculatorQuantityRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/assistant'
+    | '/dashboard'
+    | '/guide'
+    | '/login'
+    | '/projects'
+    | '/register'
+    | '/calculator/cost'
+    | '/calculator/quantity'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/assistant'
+    | '/dashboard'
+    | '/guide'
+    | '/login'
+    | '/projects'
+    | '/register'
+    | '/calculator/cost'
+    | '/calculator/quantity'
+  id:
+    | '__root__'
+    | '/'
+    | '/assistant'
+    | '/dashboard'
+    | '/guide'
+    | '/login'
+    | '/projects'
+    | '/register'
+    | '/calculator/cost'
+    | '/calculator/quantity'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AssistantRoute: typeof AssistantRoute
+  DashboardRoute: typeof DashboardRoute
+  GuideRoute: typeof GuideRoute
+  LoginRoute: typeof LoginRoute
+  ProjectsRoute: typeof ProjectsRoute
+  RegisterRoute: typeof RegisterRoute
+  CalculatorCostRoute: typeof CalculatorCostRoute
+  CalculatorQuantityRoute: typeof CalculatorQuantityRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects': {
+      id: '/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof ProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guide': {
+      id: '/guide'
+      path: '/guide'
+      fullPath: '/guide'
+      preLoaderRoute: typeof GuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assistant': {
+      id: '/assistant'
+      path: '/assistant'
+      fullPath: '/assistant'
+      preLoaderRoute: typeof AssistantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +198,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/calculator/quantity': {
+      id: '/calculator/quantity'
+      path: '/calculator/quantity'
+      fullPath: '/calculator/quantity'
+      preLoaderRoute: typeof CalculatorQuantityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calculator/cost': {
+      id: '/calculator/cost'
+      path: '/calculator/cost'
+      fullPath: '/calculator/cost'
+      preLoaderRoute: typeof CalculatorCostRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AssistantRoute: AssistantRoute,
+  DashboardRoute: DashboardRoute,
+  GuideRoute: GuideRoute,
+  LoginRoute: LoginRoute,
+  ProjectsRoute: ProjectsRoute,
+  RegisterRoute: RegisterRoute,
+  CalculatorCostRoute: CalculatorCostRoute,
+  CalculatorQuantityRoute: CalculatorQuantityRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
