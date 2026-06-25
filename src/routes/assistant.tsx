@@ -26,20 +26,20 @@ function mockReply(q: string): string {
     return "اختيار المقاول المناسب من أهم قرارات البناء. إليك أهم النصائح:\n\n1. **اطلب رؤية مشاريع سابقة** مكتملة وزرها بنفسك\n2. **تحقق من الترخيص** والسجل التجاري الساري\n3. **اقرأ تقييمات العملاء** السابقين\n4. **اطلب ضمان خمسي** على الهيكل الإنشائي\n5. **اعقد عقداً مفصلاً** يحدد المدة والتكلفة وجدول الدفعات\n6. **لا تدفع كامل المبلغ مقدماً** — اربط الدفعات بمراحل الإنجاز";
   }
   if (t.includes("دهان") || t.includes("بوية") || t.includes("لون")) {
-    return "أفضل أنواع الدهانات تختلف حسب الاستخدام:\n\n• **البلاستيك (الإيمولشن)**: الأنسب للجدران الداخلية، سهل التنظيف وغير لامع\n• **الزيت**: مقاوم للرطوبة، مناسب للحمامات والمطابخ\n• **الإيبوكسي**: للأرضيات والكراجات لمتانته العالية\n\n💡 نصيحة: اختر دهاناً منخفض الانبعاثات (Low VOC) خاصة لغرف النوم والأطفال.";
+    return "أفضل أنواع الدهانات تختلف حسب الاستخدام:\n\n• **البلاستيك (الإيمولشن)**: الأنسب للجدران الداخلية، سهل التنظيف وغير لامع\n• **الزيت**: مقاوم للرطوبة، مناسب للحمامات والمطابخ\n• **الإيبوكسي**: للأرضيات والكراجات لمتانته العالية\n\nنصيحة: اختر دهاناً منخفض الانبعاثات (Low VOC) خاصة لغرف النوم والأطفال.";
   }
   if (t.includes("بلاط") || t.includes("بورسلين") || t.includes("سيراميك") || t.includes("رخام")) {
-    return "اختيار البلاط يعتمد على المكان:\n\n• **البورسلين**: الأقوى والأنسب للأرضيات\n• **السيراميك**: أرخص ومناسب للحوائط\n• **الرخام الطبيعي**: فاخر لكنه يحتاج عناية\n\n💡 اشترِ كمية إضافية 10٪ للهدر، وتأكد من تطابق رقم الدفعة لضمان نفس اللون.";
+    return "اختيار البلاط يعتمد على المكان:\n\n• **البورسلين**: الأقوى والأنسب للأرضيات\n• **السيراميك**: أرخص ومناسب للحوائط\n• **الرخام الطبيعي**: فاخر لكنه يحتاج عناية\n\nاشترِ كمية إضافية 10٪ للهدر، وتأكد من تطابق رقم الدفعة لضمان نفس اللون.";
   }
   if (t.includes("أساس") || t.includes("خرسان")) {
-    return "الأساسات هي العمود الفقري للمنزل. أنواعها الرئيسية:\n\n• **الأساسات الشريطية**: للمنازل العادية والفلل الصغيرة\n• **الأساسات المنفصلة**: تحت الأعمدة فقط\n• **اللبشة المسلحة**: للمباني الكبيرة أو التربة الضعيفة\n\n⚠️ اطلب دائماً تقرير فحص التربة قبل تصميم الأساس، ولا تتنازل عن جودة الحديد والخرسانة.";
+    return "الأساسات هي العمود الفقري للمنزل. أنواعها الرئيسية:\n\n• **الأساسات الشريطية**: للمنازل العادية والفلل الصغيرة\n• **الأساسات المنفصلة**: تحت الأعمدة فقط\n• **اللبشة المسلحة**: للمباني الكبيرة أو التربة الضعيفة\n\nاطلب دائماً تقرير فحص التربة قبل تصميم الأساس، ولا تتنازل عن جودة الحديد والخرسانة.";
   }
   return "شكراً على سؤالك! هذا مساعد تجريبي يقدم إجابات عامة عن البناء. للحصول على معلومات أدق:\n\n• استخدم **حاسبة التكلفة** لتقدير ميزانيتك\n• راجع **دليل البناء** للمقالات التفصيلية\n• استشر مهندساً معتمداً للقرارات الإنشائية\n\nهل لديك سؤال محدد عن التكاليف، الكميات، أو مراحل البناء؟";
 }
 
 function AssistantPage() {
   const [messages, setMessages] = useState<Msg[]>([
-    { role: "assistant", text: "أهلاً بك! 👋 أنا **مساعد البناء الذكي**. يمكنني مساعدتك في أسئلة التكاليف، اختيار المواد، النصائح الإنشائية، وأي شيء يخص بناء منزلك. كيف يمكنني مساعدتك؟" },
+    { role: "assistant", text: "أهلاً بك! أنا **مساعد البناء الذكي**. يمكنني مساعدتك في أسئلة التكاليف، اختيار المواد، النصائح الإنشائية، وأي شيء يخص بناء منزلك. كيف يمكنني مساعدتك؟" },
   ]);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
@@ -63,32 +63,30 @@ function AssistantPage() {
     <AppLayout>
       <PageHeader title="مساعد البناء الذكي" subtitle="اسأل أي سؤال يخص البناء واحصل على إجابة فورية" />
 
-      <div className="rounded-3xl border bg-card shadow-card overflow-hidden flex flex-col" style={{ height: "calc(100vh - 240px)", minHeight: 500 }}>
+      <div className="flex flex-col rounded-3xl bg-card shadow-sm border border-border/50 overflow-hidden stagger-item" style={{ height: "calc(100vh - 260px)", minHeight: 480 }}>
         {/* Header */}
-        <div className="border-b bg-gradient-to-l from-primary/5 to-secondary/5 px-5 py-4">
-          <div className="flex items-center gap-3">
-            <div className="grid h-10 w-10 place-items-center rounded-2xl bg-gradient-primary text-primary-foreground shadow-elegant">
-              <Sparkles className="h-5 w-5" />
-            </div>
-            <div>
-              <div className="text-sm font-bold">مساعد البناء الذكي</div>
-              <div className="text-xs text-muted-foreground">جاهز للإجابة على أسئلتك</div>
-            </div>
+        <div className="flex items-center gap-4 border-b border-border/50 bg-muted/30 px-6 py-4">
+          <div className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-primary shadow-md">
+            <Sparkles className="h-5 w-5 text-primary-foreground" />
+          </div>
+          <div>
+            <div className="text-[15px] font-semibold">مساعد البناء الذكي</div>
+            <div className="text-[13px] text-muted-foreground">جاهز للإجابة على أسئلتك</div>
           </div>
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto px-4 py-5 sm:px-6">
-          <div className="mx-auto max-w-3xl space-y-5">
+        <div className="flex-1 overflow-y-auto px-5 py-5">
+          <div className="mx-auto max-w-3xl space-y-4">
             {messages.map((m, i) => (
               <Bubble key={i} msg={m} />
             ))}
             {typing && (
               <div className="flex gap-3">
-                <div className="grid h-9 w-9 shrink-0 place-items-center rounded-2xl bg-gradient-primary text-primary-foreground">
-                  <Sparkles className="h-4 w-4" />
+                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-gradient-primary shadow-md">
+                  <Sparkles className="h-5 w-5 text-primary-foreground" />
                 </div>
-                <div className="flex items-center gap-1.5 rounded-2xl bg-muted px-4 py-3">
+                <div className="flex items-center gap-1.5 rounded-2xl bg-muted px-5 py-3">
                   <Dot delay={0} /><Dot delay={150} /><Dot delay={300} />
                 </div>
               </div>
@@ -99,10 +97,14 @@ function AssistantPage() {
 
         {/* Suggestions */}
         {messages.length <= 1 && (
-          <div className="border-t bg-muted/30 px-4 py-3 sm:px-6">
+          <div className="border-t border-border/50 bg-muted/20 px-5 py-4">
             <div className="mx-auto flex max-w-3xl flex-wrap gap-2">
               {SUGGESTED.map(s => (
-                <button key={s} onClick={() => send(s)} className="rounded-full border bg-card px-3.5 py-1.5 text-xs font-medium hover:border-primary hover:text-primary transition">
+                <button
+                  key={s}
+                  onClick={() => send(s)}
+                  className="rounded-2xl bg-card px-4 py-2 text-[13px] font-medium shadow-sm border border-border/50 transition-all active:scale-[0.97]"
+                >
                   {s}
                 </button>
               ))}
@@ -111,13 +113,20 @@ function AssistantPage() {
         )}
 
         {/* Input */}
-        <div className="border-t bg-card p-4 sm:p-5">
-          <form onSubmit={e => { e.preventDefault(); send(input); }} className="mx-auto flex max-w-3xl items-center gap-2">
-            <input value={input} onChange={e => setInput(e.target.value)} placeholder="اكتب سؤالك هنا..."
-              className="flex-1 rounded-2xl border bg-background px-4 py-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20" />
-            <button type="submit" disabled={!input.trim() || typing}
-              className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-gradient-primary text-primary-foreground shadow-elegant transition hover:opacity-90 disabled:opacity-50">
-              <Send className="h-4 w-4 -scale-x-100" />
+        <div className="border-t border-border/50 bg-muted/30 p-4">
+          <form onSubmit={e => { e.preventDefault(); send(input); }} className="mx-auto flex max-w-3xl items-center gap-3">
+            <input
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              placeholder="اكتب سؤالك هنا..."
+              className="flex-1 rounded-2xl border border-input bg-background px-5 py-3.5 text-[15px] outline-none transition-all focus:border-primary focus:ring-3 focus:ring-primary/20"
+            />
+            <button
+              type="submit"
+              disabled={!input.trim() || typing}
+              className="grid h-12 w-12 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-md transition-all active:scale-[0.95] disabled:opacity-50"
+            >
+              <Send className="h-5 w-5 -scale-x-100" />
             </button>
           </form>
         </div>
@@ -130,19 +139,23 @@ function Bubble({ msg }: { msg: Msg }) {
   const isUser = msg.role === "user";
   return (
     <div className={`flex gap-3 ${isUser ? "flex-row-reverse" : ""}`}>
-      <div className={`grid h-9 w-9 shrink-0 place-items-center rounded-2xl shadow-elegant ${
-        isUser ? "bg-gradient-secondary text-secondary-foreground" : "bg-gradient-primary text-primary-foreground"
-      }`}>
-        {isUser ? <User className="h-4 w-4" /> : <Sparkles className="h-4 w-4" />}
+      <div
+        className={`grid h-10 w-10 shrink-0 place-items-center rounded-2xl shadow-md ${
+          isUser ? "bg-secondary text-secondary-foreground" : "bg-gradient-primary text-primary-foreground"
+        }`}
+      >
+        {isUser ? <User className="h-5 w-5" /> : <Sparkles className="h-5 w-5" />}
       </div>
-      <div className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
-        isUser ? "bg-gradient-primary text-primary-foreground" : "bg-muted"
-      }`}>
+      <div
+        className={`max-w-[80%] rounded-2xl px-5 py-3.5 text-[15px] leading-relaxed ${
+          isUser ? "bg-primary text-primary-foreground" : "bg-muted"
+        }`}
+      >
         {msg.text.split("\n").map((line, i) => (
           <p key={i} className={i > 0 ? "mt-2" : ""}>
             {line.split(/(\*\*[^*]+\*\*)/g).map((part, j) =>
               part.startsWith("**") && part.endsWith("**")
-                ? <strong key={j}>{part.slice(2, -2)}</strong>
+                ? <strong key={j} className="font-semibold">{part.slice(2, -2)}</strong>
                 : <span key={j}>{part}</span>
             )}
           </p>
@@ -153,5 +166,10 @@ function Bubble({ msg }: { msg: Msg }) {
 }
 
 function Dot({ delay }: { delay: number }) {
-  return <span className="h-2 w-2 animate-bounce rounded-full bg-muted-foreground/60" style={{ animationDelay: `${delay}ms` }} />;
+  return (
+    <span
+      className="h-2 w-2 animate-bounce rounded-full bg-muted-foreground"
+      style={{ animationDelay: `${delay}ms` }}
+    />
+  );
 }

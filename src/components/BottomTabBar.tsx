@@ -16,11 +16,11 @@ export function BottomTabBar() {
 
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-40 border-t bg-card/95 backdrop-blur lg:hidden"
-      style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+      className="fixed inset-x-0 bottom-0 z-50 glass border-t border-border/50 lg:hidden"
+      style={{ paddingBottom: "env(safe-area-inset-bottom, 8px)" }}
       aria-label="التنقل السفلي"
     >
-      <ul className="mx-auto flex max-w-xl items-stretch justify-around">
+      <ul className="flex items-end justify-around px-4 pt-2">
         {TABS.map((t) => {
           const active = path === t.to || (t.to !== "/dashboard" && path.startsWith(t.to));
           const Icon = t.icon;
@@ -29,19 +29,31 @@ export function BottomTabBar() {
               <Link
                 to={t.to}
                 className={cn(
-                  "flex flex-col items-center gap-1 py-2 text-[11px] font-medium transition-colors",
-                  active ? "text-primary" : "text-muted-foreground hover:text-foreground",
+                  "flex flex-col items-center gap-0.5 py-1.5 transition-colors duration-200",
+                  active ? "text-primary" : "text-muted-foreground",
                 )}
               >
-                <span
+                <div
                   className={cn(
-                    "grid h-9 w-9 place-items-center rounded-xl transition-all",
-                    active && "bg-gradient-primary text-primary-foreground shadow-elegant",
+                    "grid h-7 w-14 place-items-center rounded-full transition-all duration-200",
+                    active && "bg-primary/15",
                   )}
                 >
-                  <Icon className="h-5 w-5" />
+                  <Icon
+                    className={cn(
+                      "h-[22px] w-[22px] transition-all duration-200",
+                      active && "stroke-[2.5px]",
+                    )}
+                  />
+                </div>
+                <span
+                  className={cn(
+                    "text-[10px] font-medium tracking-tight transition-all duration-200",
+                    active && "text-primary font-semibold",
+                  )}
+                >
+                  {t.label}
                 </span>
-                <span>{t.label}</span>
               </Link>
             </li>
           );
