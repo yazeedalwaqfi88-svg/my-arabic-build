@@ -6,6 +6,7 @@ import {
   LogOut, Moon, Sun, Menu, X, HardHat,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { BottomTabBar } from "./BottomTabBar";
 
 const NAV = [
   { to: "/dashboard", label: "الرئيسية", icon: LayoutDashboard },
@@ -125,10 +126,11 @@ export function AppLayout({ children }: { children: ReactNode }) {
           <div className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden" onClick={() => setOpen(false)} />
         )}
 
-        <main className="min-w-0 flex-1">
+        <main className="min-w-0 flex-1 pb-20 lg:pb-0">
           <div className="mx-auto max-w-7xl p-4 sm:p-6 lg:p-10">{children}</div>
         </main>
       </div>
+      <BottomTabBar />
     </div>
   );
 }
