@@ -7,7 +7,32 @@ import { toast } from "sonner";
 import { Save, Trash2, Grid3x3, Paintbrush, Layers } from "lucide-react";
 
 export const Route = createFileRoute("/calculator/quantity")({
-  head: () => ({ meta: [{ title: "حاسبة الكميات — مستشارك للبناء" }] }),
+  head: () => ({
+    meta: [
+      { title: "حاسبة كميات البلاط والدهان والخرسانة — مستشارك للبناء" },
+      { name: "description", content: "احسب كمية البلاط، الدهان، والخرسانة اللازمة لمشروعك بناءً على المساحات والأبعاد، مع تقدير التكلفة." },
+      { property: "og:title", content: "حاسبة الكميات — مستشارك للبناء" },
+      { property: "og:description", content: "احسب كميات مواد البناء (بلاط، دهان، خرسانة) بدقة وسهولة." },
+      { property: "og:url", content: "https://my-arabic-build.lovable.app/calculator/quantity" },
+    ],
+    links: [{ rel: "canonical", href: "https://my-arabic-build.lovable.app/calculator/quantity" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: "حاسبة كميات البناء",
+          applicationCategory: "BusinessApplication",
+          operatingSystem: "Web, Android, iOS",
+          inLanguage: "ar",
+          url: "https://my-arabic-build.lovable.app/calculator/quantity",
+          description: "أداة لحساب كميات البلاط والدهان والخرسانة المطلوبة في مشاريع البناء.",
+          offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+        }),
+      },
+    ],
+  }),
   component: QuantityPage,
 });
 

@@ -4,7 +4,16 @@ import { AppLayout, PageHeader } from "@/components/AppLayout";
 import { Sparkles, Send, User } from "lucide-react";
 
 export const Route = createFileRoute("/assistant")({
-  head: () => ({ meta: [{ title: "المساعد الذكي — مستشارك للبناء" }] }),
+  head: () => ({
+    meta: [
+      { title: "المساعد الذكي للبناء — أسئلة وأجوبة" },
+      { name: "description", content: "اسأل مساعد البناء الذكي عن التكاليف، المقاولين، مواد التشطيب، والمراحل المختلفة لبناء منزلك بالعربية." },
+      { property: "og:title", content: "المساعد الذكي — مستشارك للبناء" },
+      { property: "og:description", content: "إجابات سريعة لأكثر الأسئلة شيوعاً حول بناء المنازل." },
+      { property: "og:url", content: "https://my-arabic-build.lovable.app/assistant" },
+      { name: "robots", content: "noindex,follow" },
+    ],
+  }),
   component: AssistantPage,
 });
 

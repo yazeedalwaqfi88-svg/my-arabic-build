@@ -7,7 +7,16 @@ import { toast } from "sonner";
 import { Plus, Trash2, X, MapPin, Wallet, Calendar, FolderKanban, Pencil, ChevronLeft } from "lucide-react";
 
 export const Route = createFileRoute("/projects")({
-  head: () => ({ meta: [{ title: "مشاريعي — مستشارك للبناء" }] }),
+  head: () => ({
+    meta: [
+      { title: "مشاريعي — متابعة مشاريع البناء" },
+      { name: "description", content: "أنشئ وتابع مشاريع البناء الخاصة بك: نسبة الإنجاز، الميزانية، المصروفات، والمرحلة الحالية." },
+      { property: "og:title", content: "مشاريعي — مستشارك للبناء" },
+      { property: "og:description", content: "تابع مراحل البناء والمصروفات لكل مشروع." },
+      { property: "og:url", content: "https://my-arabic-build.lovable.app/projects" },
+      { name: "robots", content: "noindex,follow" },
+    ],
+  }),
   component: ProjectsPage,
 });
 

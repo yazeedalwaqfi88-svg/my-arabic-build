@@ -6,7 +6,16 @@ import { costs, projects, quantities, auth, formatMoney, STATUS_LABEL, type Cost
 import { Calculator, Ruler, FolderKanban, Plus, TrendingUp, Wallet, Hammer, ArrowLeft, ChevronLeft, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/dashboard")({
-  head: () => ({ meta: [{ title: "الرئيسية — مستشارك للبناء" }] }),
+  head: () => ({
+    meta: [
+      { title: "لوحة التحكم — مستشارك للبناء" },
+      { name: "description", content: "نظرة عامة على مشاريعك النشطة، آخر الحسابات، والإجراءات السريعة في تطبيق مستشارك للبناء." },
+      { property: "og:title", content: "لوحة التحكم — مستشارك للبناء" },
+      { property: "og:description", content: "تابع مشاريعك وحساباتك في مكان واحد." },
+      { property: "og:url", content: "https://my-arabic-build.lovable.app/dashboard" },
+      { name: "robots", content: "noindex,follow" },
+    ],
+  }),
   component: Dashboard,
 });
 
