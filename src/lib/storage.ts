@@ -84,9 +84,9 @@ export type Project = {
   progress: number;
   status: ProjectStatus;
 
-  priority: "low" | "medium" | "high";
+  priority?: "low" | "medium" | "high";
 
-  notes: string;
+  notes?: string;
   engineerNotes?: string;
   contractor?: string;
 
