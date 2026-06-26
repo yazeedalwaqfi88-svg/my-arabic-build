@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useCurrency } from "@/hooks/use-currency";
 import { useEffect, useState } from "react";
 import { AppLayout, PageHeader } from "@/components/AppLayout";
-import { quantities, formatNum, formatSAR, type QuantityCalc } from "@/lib/storage";
+import { quantities, formatNum, formatMoney, type QuantityCalc } from "@/lib/storage";
 import { toast } from "sonner";
 import { Save, Trash2, Grid3x3, Paintbrush, Layers } from "lucide-react";
 
@@ -11,6 +12,7 @@ export const Route = createFileRoute("/calculator/quantity")({
 });
 
 function QuantityPage() {
+  useCurrency();
   const [saved, setSaved] = useState<QuantityCalc[]>([]);
   useEffect(() => { setSaved(quantities.list()); }, []);
 
@@ -179,7 +181,7 @@ function PaintCalc({ onSaved }: { onSaved: () => void }) {
       type: "paint",
       title: `دهان — ${wallArea} م²`,
       inputs: { wallArea, coats },
-      outputs: { "كمية الدهان": formatNum(liters, 1) + " لتر", "التكلفة التقديرية": formatSAR(cost) },
+      outputs: { "كمية الدهان": formatNum(liters, 1) + " لتر", "التكلفة التقديرية": formatMoney(cost) },
     });
     onSaved();
     toast.success("تم الحفظ");
@@ -192,7 +194,7 @@ function PaintCalc({ onSaved }: { onSaved: () => void }) {
 
       <div className="space-y-2 pt-2">
         <Output label="كمية الدهان" value={formatNum(liters, 1) + " لتر"} />
-        <Output label="التكلفة التقديرية" value={formatSAR(cost)} highlight />
+        <Output label="التكلفة التقديرية" value={formatMoney(cost)} highlight />
       </div>
 
       <button

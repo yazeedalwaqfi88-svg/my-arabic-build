@@ -3,7 +3,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { auth, theme } from "@/lib/storage";
 import {
   LayoutDashboard, Calculator, Ruler, FolderKanban, BookOpen, Sparkles,
-  LogOut, Moon, Sun, Menu, X, HardHat, ChevronLeft,
+  LogOut, Moon, Sun, Menu, X, HardHat, ChevronLeft, Settings,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BottomTabBar } from "./BottomTabBar";
@@ -15,6 +15,7 @@ const NAV = [
   { to: "/projects", label: "مشاريعي", icon: FolderKanban },
   { to: "/guide", label: "دليل البناء", icon: BookOpen },
   { to: "/assistant", label: "المساعد الذكي", icon: Sparkles },
+  { to: "/settings", label: "الإعدادات", icon: Settings },
 ] as const;
 
 export function AppLayout({ children }: { children: ReactNode }) {

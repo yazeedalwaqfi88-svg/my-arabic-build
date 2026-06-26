@@ -34,20 +34,20 @@ export type CostCalc = {
   country: string;
   city: string;
 
-  buildingType: BuildingType;
+  buildingType?: BuildingType;
 
-  soilType: "rock" | "sand" | "clay";
+  soilType?: "rock" | "sand" | "clay";
 
   area: number;
-  areaUnit: "m2" | "ft2";
+  areaUnit?: "m2" | "ft2";
 
   floors: number;
 
   level: "economy" | "medium" | "luxury";
 
-  qualityIndex: number; // 1 - 10
+  qualityIndex?: number; // 1 - 10
 
-  currency: Currency;
+  currency?: Currency;
 
   structural: number;
   finishing: number;
@@ -84,9 +84,9 @@ export type Project = {
   progress: number;
   status: ProjectStatus;
 
-  priority: "low" | "medium" | "high";
+  priority?: "low" | "medium" | "high";
 
-  notes: string;
+  notes?: string;
   engineerNotes?: string;
   contractor?: string;
 
@@ -135,10 +135,26 @@ function write<T>(k: string, v: T) {
    SETTINGS (NEW)
 ======================= */
 
+const CURRENCY_EVENT = "mb_currency_change";
+
+export const CURRENCY_SYMBOL: Record<Currency, string> = {
+  USD: "$",
+  SAR: "ر.س",
+  JOD: "د.أ",
+  EUR: "€",
+};
+
+export const CURRENCY_LABEL: Record<Currency, string> = {
+  USD: "دولار أمريكي (USD)",
+  SAR: "ريال سعودي (SAR)",
+  JOD: "دينار أردني (JOD)",
+  EUR: "يورو (EUR)",
+};
+
 export const settings = {
   get(): AppSettings {
     return read<AppSettings>(K.settings, {
-      currency: "USD",
+      currency: "SAR",
       theme: "light",
     });
   },
@@ -147,6 +163,20 @@ export const settings = {
     const s = settings.get();
     s.currency = currency;
     write(K.settings, s);
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent(CURRENCY_EVENT, { detail: currency }));
+    }
+  },
+
+  subscribeCurrency(cb: () => void): () => void {
+    if (typeof window === "undefined") return () => {};
+    const handler = () => cb();
+    window.addEventListener(CURRENCY_EVENT, handler);
+    window.addEventListener("storage", handler);
+    return () => {
+      window.removeEventListener(CURRENCY_EVENT, handler);
+      window.removeEventListener("storage", handler);
+    };
   },
 
   setTheme(theme: "light" | "dark") {
@@ -354,12 +384,15 @@ export const theme = {
    FORMATTERS
 ======================= */
 
+export function formatMoney(n: number, currency?: Currency): string {
+  const cur = currency ?? settings.get().currency;
+  const formatted = new Intl.NumberFormat("ar", { maximumFractionDigits: 0 }).format(Math.round(n));
+  return `${formatted} ${CURRENCY_SYMBOL[cur]}`;
+}
+
+/** @deprecated use formatMoney — kept for backward compatibility */
 export function formatSAR(n: number): string {
-  return (
-    new Intl.NumberFormat("ar", { maximumFractionDigits: 0 }).format(
-      Math.round(n)
-    ) + " ر.س"
-  );
+  return formatMoney(n);
 }
 
 export function formatNum(n: number, digits = 0): string {
