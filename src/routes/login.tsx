@@ -5,7 +5,16 @@ import { toast } from "sonner";
 import { HardHat, Mail, Lock, ChevronLeft } from "lucide-react";
 
 export const Route = createFileRoute("/login")({
-  head: () => ({ meta: [{ title: "تسجيل الدخول — مستشارك للبناء" }] }),
+  head: () => ({
+    meta: [
+      { title: "تسجيل الدخول — مستشارك للبناء" },
+      { name: "description", content: "سجّل دخولك إلى حسابك في مستشارك للبناء لمتابعة مشاريعك وحساباتك المحفوظة." },
+      { property: "og:title", content: "تسجيل الدخول — مستشارك للبناء" },
+      { property: "og:description", content: "ادخل إلى حسابك لمتابعة مشاريع البناء." },
+      { property: "og:url", content: "https://my-arabic-build.lovable.app/login" },
+      { name: "robots", content: "noindex,follow" },
+    ],
+  }),
   component: Login,
 });
 

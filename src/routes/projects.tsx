@@ -7,7 +7,16 @@ import { toast } from "sonner";
 import { Plus, Trash2, X, MapPin, Wallet, Calendar, FolderKanban, Pencil, ChevronLeft } from "lucide-react";
 
 export const Route = createFileRoute("/projects")({
-  head: () => ({ meta: [{ title: "مشاريعي — مستشارك للبناء" }] }),
+  head: () => ({
+    meta: [
+      { title: "مشاريعي — متابعة مشاريع البناء" },
+      { name: "description", content: "أنشئ وتابع مشاريع البناء الخاصة بك: نسبة الإنجاز، الميزانية، المصروفات، والمرحلة الحالية." },
+      { property: "og:title", content: "مشاريعي — مستشارك للبناء" },
+      { property: "og:description", content: "تابع مراحل البناء والمصروفات لكل مشروع." },
+      { property: "og:url", content: "https://my-arabic-build.lovable.app/projects" },
+      { name: "robots", content: "noindex,follow" },
+    ],
+  }),
   component: ProjectsPage,
 });
 
@@ -111,12 +120,14 @@ function ProjectCard({ p, onEdit, onChange, style }: { p: Project; onEdit: () =>
         <div className="flex gap-1">
           <button
             onClick={onEdit}
+            aria-label="تعديل المشروع"
             className="grid h-9 w-9 place-items-center rounded-xl text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
           >
             <Pencil className="h-4 w-4" />
           </button>
           <button
             onClick={del}
+            aria-label="حذف المشروع"
             className="grid h-9 w-9 place-items-center rounded-xl text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
           >
             <Trash2 className="h-4 w-4" />
@@ -179,6 +190,7 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
           <h2 className="text-[17px] font-semibold">{title}</h2>
           <button
             onClick={onClose}
+            aria-label="إغلاق النافذة"
             className="grid h-9 w-9 place-items-center rounded-xl text-muted-foreground transition-colors hover:bg-muted"
           >
             <X className="h-5 w-5" />
@@ -311,6 +323,7 @@ function EditProjectModal({ p, onClose, onSaved }: { p: Project; onClose: () => 
                     <span className="text-[15px] font-semibold text-primary number-highlight">{formatMoney(e.amount)}</span>
                     <button
                       onClick={() => removeExpense(e.id)}
+                      aria-label="حذف المصروف"
                       className="grid h-8 w-8 place-items-center rounded-xl text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
                     >
                       <Trash2 className="h-4 w-4" />

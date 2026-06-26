@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ProjectsRouteImport } from './routes/projects'
@@ -20,6 +21,11 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as CalculatorQuantityRouteImport } from './routes/calculator.quantity'
 import { Route as CalculatorCostRouteImport } from './routes/calculator.cost'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/projects': typeof ProjectsRoute
   '/register': typeof RegisterRoute
   '/settings': typeof SettingsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/calculator/cost': typeof CalculatorCostRoute
   '/calculator/quantity': typeof CalculatorQuantityRoute
 }
@@ -92,6 +99,7 @@ export interface FileRoutesByTo {
   '/projects': typeof ProjectsRoute
   '/register': typeof RegisterRoute
   '/settings': typeof SettingsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/calculator/cost': typeof CalculatorCostRoute
   '/calculator/quantity': typeof CalculatorQuantityRoute
 }
@@ -105,6 +113,7 @@ export interface FileRoutesById {
   '/projects': typeof ProjectsRoute
   '/register': typeof RegisterRoute
   '/settings': typeof SettingsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/calculator/cost': typeof CalculatorCostRoute
   '/calculator/quantity': typeof CalculatorQuantityRoute
 }
@@ -119,6 +128,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/register'
     | '/settings'
+    | '/sitemap.xml'
     | '/calculator/cost'
     | '/calculator/quantity'
   fileRoutesByTo: FileRoutesByTo
@@ -131,6 +141,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/register'
     | '/settings'
+    | '/sitemap.xml'
     | '/calculator/cost'
     | '/calculator/quantity'
   id:
@@ -143,6 +154,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/register'
     | '/settings'
+    | '/sitemap.xml'
     | '/calculator/cost'
     | '/calculator/quantity'
   fileRoutesById: FileRoutesById
@@ -156,12 +168,20 @@ export interface RootRouteChildren {
   ProjectsRoute: typeof ProjectsRoute
   RegisterRoute: typeof RegisterRoute
   SettingsRoute: typeof SettingsRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   CalculatorCostRoute: typeof CalculatorCostRoute
   CalculatorQuantityRoute: typeof CalculatorQuantityRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/settings': {
       id: '/settings'
       path: '/settings'
@@ -244,6 +264,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProjectsRoute: ProjectsRoute,
   RegisterRoute: RegisterRoute,
   SettingsRoute: SettingsRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   CalculatorCostRoute: CalculatorCostRoute,
   CalculatorQuantityRoute: CalculatorQuantityRoute,
 }

@@ -6,7 +6,16 @@ import { User, Mail, Lock } from "lucide-react";
 import { AuthShell, Field } from "./login";
 
 export const Route = createFileRoute("/register")({
-  head: () => ({ meta: [{ title: "إنشاء حساب — مستشارك للبناء" }] }),
+  head: () => ({
+    meta: [
+      { title: "إنشاء حساب جديد — مستشارك للبناء" },
+      { name: "description", content: "أنشئ حساباً مجانياً في مستشارك للبناء لحفظ حساباتك، تتبّع مشاريعك، والوصول إلى دليل البناء." },
+      { property: "og:title", content: "إنشاء حساب — مستشارك للبناء" },
+      { property: "og:description", content: "ابدأ مجاناً وخطّط لبناء منزلك خطوة بخطوة." },
+      { property: "og:url", content: "https://my-arabic-build.lovable.app/register" },
+      { name: "robots", content: "noindex,follow" },
+    ],
+  }),
   component: Register,
 });
 

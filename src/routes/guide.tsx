@@ -4,7 +4,29 @@ import { AppLayout, PageHeader } from "@/components/AppLayout";
 import { Search, BookOpen, Lightbulb, X, ChevronLeft } from "lucide-react";
 
 export const Route = createFileRoute("/guide")({
-  head: () => ({ meta: [{ title: "دليل البناء — مستشارك للبناء" }] }),
+  head: () => ({
+    meta: [
+      { title: "دليل البناء — نصائح ومقالات لبناء منزلك" },
+      { name: "description", content: "مكتبة مقالات بالعربية تغطي مراحل البناء الثلاث: ما قبل البدء، أثناء التنفيذ، ومرحلة التشطيب — مع نصائح عملية." },
+      { property: "og:title", content: "دليل البناء — مستشارك للبناء" },
+      { property: "og:description", content: "مقالات ونصائح لكل مراحل بناء المنزل بأسلوب مبسّط." },
+      { property: "og:url", content: "https://my-arabic-build.lovable.app/guide" },
+    ],
+    links: [{ rel: "canonical", href: "https://my-arabic-build.lovable.app/guide" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "دليل البناء",
+          url: "https://my-arabic-build.lovable.app/guide",
+          inLanguage: "ar",
+          description: "مكتبة مقالات ونصائح لمراحل بناء المنزل قبل وأثناء وبعد التنفيذ.",
+        }),
+      },
+    ],
+  }),
   component: GuidePage,
 });
 

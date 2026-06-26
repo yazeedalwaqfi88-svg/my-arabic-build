@@ -8,7 +8,32 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recha
 import { Save, Trash2, Calculator, Building2, Hammer, Zap, Droplets } from "lucide-react";
 
 export const Route = createFileRoute("/calculator/cost")({
-  head: () => ({ meta: [{ title: "حاسبة تكلفة البناء — مستشارك للبناء" }] }),
+  head: () => ({
+    meta: [
+      { title: "حاسبة تكلفة بناء المنزل والفيلا — مستشارك للبناء" },
+      { name: "description", content: "احسب تكلفة بناء منزلك أو فيلتك بحسب المساحة، عدد الأدوار، الموقع، ومستوى التشطيب — تقدير سريع بالعملة التي تختارها." },
+      { property: "og:title", content: "حاسبة تكلفة البناء — مستشارك للبناء" },
+      { property: "og:description", content: "تقدير دقيق لتكلفة بناء منزل أو فيلا بحسب المواصفات والمدينة." },
+      { property: "og:url", content: "https://my-arabic-build.lovable.app/calculator/cost" },
+    ],
+    links: [{ rel: "canonical", href: "https://my-arabic-build.lovable.app/calculator/cost" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: "حاسبة تكلفة البناء",
+          applicationCategory: "BusinessApplication",
+          operatingSystem: "Web, Android, iOS",
+          inLanguage: "ar",
+          url: "https://my-arabic-build.lovable.app/calculator/cost",
+          description: "أداة لحساب تكلفة بناء المنازل والفلل بحسب المساحة والموقع ومستوى التشطيب.",
+          offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+        }),
+      },
+    ],
+  }),
   component: CostPage,
 });
 
@@ -216,6 +241,7 @@ function CostPage() {
                   </div>
                   <button
                     onClick={() => onDelete(s.id)}
+                    aria-label="حذف الحساب"
                     className="grid h-8 w-8 place-items-center rounded-xl text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
                   >
                     <Trash2 className="h-4 w-4" />

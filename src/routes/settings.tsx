@@ -6,7 +6,16 @@ import { Check, Coins } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/settings")({
-  head: () => ({ meta: [{ title: "الإعدادات — مستشارك للبناء" }] }),
+  head: () => ({
+    meta: [
+      { title: "الإعدادات — مستشارك للبناء" },
+      { name: "description", content: "خصّص تجربتك في تطبيق مستشارك للبناء: العملة المستخدمة في الحاسبات والتقارير، والمزيد." },
+      { property: "og:title", content: "الإعدادات — مستشارك للبناء" },
+      { property: "og:description", content: "خصّص العملة وإعدادات التطبيق." },
+      { property: "og:url", content: "https://my-arabic-build.lovable.app/settings" },
+      { name: "robots", content: "noindex,follow" },
+    ],
+  }),
   component: SettingsPage,
 });
 

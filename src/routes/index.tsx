@@ -4,10 +4,35 @@ import { Calculator, Ruler, FolderKanban, BookOpen, Sparkles, HardHat, ChevronLe
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "مستشارك للبناء — احسب وخطط وتابع مشروع بناء منزلك" },
-      { name: "description", content: "تطبيق عربي شامل لحساب تكاليف البناء، الكميات، ومتابعة مشروع منزلك خطوة بخطوة." },
-      { property: "og:title", content: "مستشارك للبناء" },
-      { property: "og:description", content: "ابنِ منزلك بثقة. احسب التكاليف والكميات وتابع مشروع البناء بسهولة." },
+      { title: "مستشارك للبناء — احسب تكلفة وكميات بناء منزلك بالعربية" },
+      { name: "description", content: "منصة عربية لحساب تكلفة بناء المنازل، حساب كميات البلاط والدهان والخرسانة، ومتابعة مشروع البناء خطوة بخطوة." },
+      { property: "og:title", content: "مستشارك للبناء — رفيقك في بناء منزلك" },
+      { property: "og:description", content: "ابنِ منزلك بثقة: حاسبات تكلفة وكميات، متابعة للمشاريع، ودليل بناء بالعربية." },
+      { property: "og:url", content: "https://my-arabic-build.lovable.app/" },
+    ],
+    links: [{ rel: "canonical", href: "https://my-arabic-build.lovable.app/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebSite",
+              name: "مستشارك للبناء",
+              url: "https://my-arabic-build.lovable.app/",
+              inLanguage: "ar",
+              description: "منصة عربية لحساب تكاليف البناء والكميات ومتابعة مشاريع المنازل.",
+            },
+            {
+              "@type": "Organization",
+              name: "مستشارك للبناء",
+              url: "https://my-arabic-build.lovable.app/",
+              description: "تطبيق عربي يساعد الأفراد على تخطيط وحساب وتتبع مشاريع بناء منازلهم.",
+            },
+          ],
+        }),
+      },
     ],
   }),
   component: Landing,
