@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useCurrency } from "@/hooks/use-currency";
 import { useEffect, useState } from "react";
 import { AppLayout, PageHeader } from "@/components/AppLayout";
 import { quantities, formatNum, formatMoney, type QuantityCalc } from "@/lib/storage";
@@ -11,6 +12,7 @@ export const Route = createFileRoute("/calculator/quantity")({
 });
 
 function QuantityPage() {
+  useCurrency();
   const [saved, setSaved] = useState<QuantityCalc[]>([]);
   useEffect(() => { setSaved(quantities.list()); }, []);
 

@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useCurrency } from "@/hooks/use-currency";
 import { useEffect, useState } from "react";
 import { AppLayout, PageHeader } from "@/components/AppLayout";
 import { costs, formatMoney, type CostCalc } from "@/lib/storage";
@@ -45,6 +46,7 @@ function calculate(country: string, area: number, floors: number, level: keyof t
 }
 
 function CostPage() {
+  useCurrency();
   const [country, setCountry] = useState("السعودية");
   const [city, setCity] = useState("الرياض");
   const [area, setArea] = useState(200);

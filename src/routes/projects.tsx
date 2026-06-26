@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useCurrency } from "@/hooks/use-currency";
 import { useEffect, useState } from "react";
 import { AppLayout, PageHeader } from "@/components/AppLayout";
 import { projects, formatMoney, STATUS_LABEL, type Project, type ProjectStatus } from "@/lib/storage";
@@ -21,6 +22,7 @@ const STATUS_COLORS: Record<ProjectStatus, string> = {
 };
 
 function ProjectsPage() {
+  useCurrency();
   const [list, setList] = useState<Project[]>([]);
   const [showNew, setShowNew] = useState(false);
   const [editing, setEditing] = useState<Project | null>(null);

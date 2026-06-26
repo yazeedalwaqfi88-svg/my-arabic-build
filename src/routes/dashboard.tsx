@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useCurrency } from "@/hooks/use-currency";
 import { useEffect, useState } from "react";
 import { AppLayout, PageHeader } from "@/components/AppLayout";
 import { costs, projects, quantities, auth, formatMoney, STATUS_LABEL, type CostCalc, type Project, type QuantityCalc } from "@/lib/storage";
@@ -10,6 +11,7 @@ export const Route = createFileRoute("/dashboard")({
 });
 
 function Dashboard() {
+  useCurrency();
   const [data, setData] = useState<{ costs: CostCalc[]; quants: QuantityCalc[]; projs: Project[]; name: string }>({
     costs: [], quants: [], projs: [], name: "",
   });
