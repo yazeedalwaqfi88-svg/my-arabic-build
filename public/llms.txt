@@ -1,0 +1,17 @@
+# مستشارك للبناء
+
+> تطبيق عربي شامل لمساعدة الأفراد على تخطيط وحساب وتتبع مشاريع بناء منازلهم: حساب التكاليف، حساب الكميات (بلاط، دهان، خرسانة)، متابعة المشاريع، ودليل بناء.
+
+The app targets ordinary (non-engineer) homeowners across the Gulf and broader Arab region. It works fully in Arabic with RTL layout, supports light/dark mode, and is installable as a Progressive Web App.
+
+## Pages
+
+- [الرئيسية](/): صفحة الهبوط — لمحة عن الميزات وكيفية البدء.
+- [دليل البناء](/guide): مكتبة مقالات ونصائح لمراحل ما قبل وأثناء وبعد البناء.
+- [تسجيل الدخول](/login): الدخول إلى حساب المستخدم.
+- [إنشاء حساب](/register): إنشاء حساب جديد.
+
+## Optional
+
+- [حاسبة تكلفة البناء](/calculator/cost): تقدير تكلفة بناء منزل بحسب المساحة والموقع ومستوى التشطيب.
+- [حاسبة الكميات](/calculator/quantity): حساب كميات البلاط والدهان والخرسانة.

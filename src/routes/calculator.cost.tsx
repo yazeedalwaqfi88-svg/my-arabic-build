@@ -216,6 +216,7 @@ function CostPage() {
                   </div>
                   <button
                     onClick={() => onDelete(s.id)}
+                    aria-label="حذف الحساب"
                     className="grid h-8 w-8 place-items-center rounded-xl text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
                   >
                     <Trash2 className="h-4 w-4" />

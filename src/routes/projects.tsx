@@ -111,12 +111,14 @@ function ProjectCard({ p, onEdit, onChange, style }: { p: Project; onEdit: () =>
         <div className="flex gap-1">
           <button
             onClick={onEdit}
+            aria-label="تعديل المشروع"
             className="grid h-9 w-9 place-items-center rounded-xl text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
           >
             <Pencil className="h-4 w-4" />
           </button>
           <button
             onClick={del}
+            aria-label="حذف المشروع"
             className="grid h-9 w-9 place-items-center rounded-xl text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
           >
             <Trash2 className="h-4 w-4" />
@@ -179,6 +181,7 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
           <h2 className="text-[17px] font-semibold">{title}</h2>
           <button
             onClick={onClose}
+            aria-label="إغلاق النافذة"
             className="grid h-9 w-9 place-items-center rounded-xl text-muted-foreground transition-colors hover:bg-muted"
           >
             <X className="h-5 w-5" />
@@ -311,6 +314,7 @@ function EditProjectModal({ p, onClose, onSaved }: { p: Project; onClose: () => 
                     <span className="text-[15px] font-semibold text-primary number-highlight">{formatMoney(e.amount)}</span>
                     <button
                       onClick={() => removeExpense(e.id)}
+                      aria-label="حذف المصروف"
                       className="grid h-8 w-8 place-items-center rounded-xl text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
                     >
                       <Trash2 className="h-4 w-4" />
