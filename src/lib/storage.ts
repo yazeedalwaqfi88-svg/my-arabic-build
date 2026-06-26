@@ -34,20 +34,20 @@ export type CostCalc = {
   country: string;
   city: string;
 
-  buildingType: BuildingType;
+  buildingType?: BuildingType;
 
-  soilType: "rock" | "sand" | "clay";
+  soilType?: "rock" | "sand" | "clay";
 
   area: number;
-  areaUnit: "m2" | "ft2";
+  areaUnit?: "m2" | "ft2";
 
   floors: number;
 
   level: "economy" | "medium" | "luxury";
 
-  qualityIndex: number; // 1 - 10
+  qualityIndex?: number; // 1 - 10
 
-  currency: Currency;
+  currency?: Currency;
 
   structural: number;
   finishing: number;
