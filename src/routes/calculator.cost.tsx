@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { AppLayout, PageHeader } from "@/components/AppLayout";
-import { costs, formatSAR, type CostCalc } from "@/lib/storage";
+import { costs, formatMoney, type CostCalc } from "@/lib/storage";
 import { toast } from "sonner";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
 import { Save, Trash2, Calculator, Building2, Hammer, Zap, Droplets } from "lucide-react";
@@ -144,7 +144,7 @@ function CostPage() {
               {/* Total Card */}
               <div className="rounded-3xl bg-gradient-primary p-6 text-primary-foreground shadow-lg">
                 <div className="text-[13px] opacity-80 mb-1">إجمالي التكلفة التقديرية</div>
-                <div className="text-4xl font-bold tracking-tight number-highlight">{formatSAR(result.total)}</div>
+                <div className="text-4xl font-bold tracking-tight number-highlight">{formatMoney(result.total)}</div>
                 <div className="text-[13px] opacity-80 mt-2">
                   {area} م² × {floors} {floors > 1 ? "أدوار" : "طابق"} • {city}
                 </div>
@@ -168,7 +168,7 @@ function CostPage() {
                         {chartData.map((e, i) => <Cell key={i} fill={e.color} />)}
                       </Pie>
                       <Tooltip
-                        formatter={(v: number) => formatSAR(v)}
+                        formatter={(v: number) => formatMoney(v)}
                         contentStyle={{ borderRadius: 16, border: "none", background: "var(--card)", boxShadow: "var(--shadow-lg)" }}
                       />
                       <Legend />
@@ -219,7 +219,7 @@ function CostPage() {
                     <Trash2 className="h-4 w-4" />
                   </button>
                 </div>
-                <div className="mt-3 text-xl font-bold text-primary number-highlight">{formatSAR(s.total)}</div>
+                <div className="mt-3 text-xl font-bold text-primary number-highlight">{formatMoney(s.total)}</div>
               </div>
             ))}
           </div>
@@ -274,7 +274,7 @@ function BreakdownCard({ icon: Icon, label, value, color, iconColor }: {
         <Icon className={`h-4 w-4 ${iconColor}`} />
         <span className="text-[13px] font-medium">{label}</span>
       </div>
-      <div className="text-lg font-bold number-highlight">{formatSAR(value)}</div>
+      <div className="text-lg font-bold number-highlight">{formatMoney(value)}</div>
     </div>
   );
 }

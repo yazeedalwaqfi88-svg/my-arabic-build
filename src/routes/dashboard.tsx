@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { AppLayout, PageHeader } from "@/components/AppLayout";
-import { costs, projects, quantities, auth, formatSAR, STATUS_LABEL, type CostCalc, type Project, type QuantityCalc } from "@/lib/storage";
+import { costs, projects, quantities, auth, formatMoney, STATUS_LABEL, type CostCalc, type Project, type QuantityCalc } from "@/lib/storage";
 import { Calculator, Ruler, FolderKanban, Plus, TrendingUp, Wallet, Hammer, ArrowLeft, ChevronLeft, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/dashboard")({
@@ -25,7 +25,7 @@ function Dashboard() {
   const avgProgress = data.projs.length ? Math.round(data.projs.reduce((s, p) => s + p.progress, 0) / data.projs.length) : 0;
 
   const stats = [
-    { label: "إجمالي الميزانيات", value: formatSAR(totalBudget), icon: Wallet, color: "bg-blue-50 dark:bg-blue-950/30", iconColor: "text-blue-600 dark:text-blue-400" },
+    { label: "إجمالي الميزانيات", value: formatMoney(totalBudget), icon: Wallet, color: "bg-blue-50 dark:bg-blue-950/30", iconColor: "text-blue-600 dark:text-blue-400" },
     { label: "مشاريع نشطة", value: activeProjs.toString(), icon: Hammer, color: "bg-orange-50 dark:bg-orange-950/30", iconColor: "text-orange-600 dark:text-orange-400" },
     { label: "حسابات محفوظة", value: totalCalcs.toString(), icon: Calculator, color: "bg-emerald-50 dark:bg-emerald-950/30", iconColor: "text-emerald-600 dark:text-emerald-400" },
     { label: "متوسط الإنجاز", value: avgProgress ? `${avgProgress}٪` : "—", icon: TrendingUp, color: "bg-violet-50 dark:bg-violet-950/30", iconColor: "text-violet-600 dark:text-violet-400" },
@@ -89,7 +89,7 @@ function Dashboard() {
             ) : (
               <div className="divide-y divide-border/50">
                 {[...data.costs.slice(0, 3).map(c => ({
-                  id: c.id, title: `${c.area} م²`, sub: c.city || c.country, value: formatSAR(c.total), type: "calc"
+                  id: c.id, title: `${c.area} م²`, sub: c.city || c.country, value: formatMoney(c.total), type: "calc"
                 })), ...data.quants.slice(0, 2).map(q => ({
                   id: q.id, title: q.title, sub: "حاسبة كميات", value: "", type: "quant"
                 }))].slice(0, 4).map((item) => (
@@ -142,7 +142,7 @@ function Dashboard() {
                     </div>
                     <div className="flex items-center justify-between text-[13px] text-muted-foreground mb-2">
                       <span>{p.location}</span>
-                      <span className="font-medium text-foreground">{formatSAR(p.budget)}</span>
+                      <span className="font-medium text-foreground">{formatMoney(p.budget)}</span>
                     </div>
                     <div className="h-1.5 overflow-hidden rounded-full bg-muted">
                       <div

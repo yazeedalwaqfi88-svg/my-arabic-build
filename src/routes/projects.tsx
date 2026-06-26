@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { AppLayout, PageHeader } from "@/components/AppLayout";
-import { projects, formatSAR, STATUS_LABEL, type Project, type ProjectStatus } from "@/lib/storage";
+import { projects, formatMoney, STATUS_LABEL, type Project, type ProjectStatus } from "@/lib/storage";
 import { toast } from "sonner";
 import { Plus, Trash2, X, MapPin, Wallet, Calendar, FolderKanban, Pencil, ChevronLeft } from "lucide-react";
 
@@ -129,7 +129,7 @@ function ProjectCard({ p, onEdit, onChange, style }: { p: Project; onEdit: () =>
         </span>
         <span className="inline-flex items-center gap-1.5">
           <Wallet className="h-3.5 w-3.5" />
-          {formatSAR(p.budget)}
+          {formatMoney(p.budget)}
         </span>
         <span className="inline-flex items-center gap-1.5">
           <Calendar className="h-3.5 w-3.5" />
@@ -155,7 +155,7 @@ function ProjectCard({ p, onEdit, onChange, style }: { p: Project; onEdit: () =>
       <div className="grid grid-cols-2 gap-3">
         <div className="rounded-2xl bg-muted/50 p-3">
           <div className="text-[11px] text-muted-foreground mb-0.5">المصروف</div>
-          <div className="text-[15px] font-semibold number-highlight">{formatSAR(totalExpenses)}</div>
+          <div className="text-[15px] font-semibold number-highlight">{formatMoney(totalExpenses)}</div>
         </div>
         <div className="rounded-2xl bg-muted/50 p-3">
           <div className="text-[11px] text-muted-foreground mb-0.5">من الميزانية</div>
@@ -306,7 +306,7 @@ function EditProjectModal({ p, onClose, onSaved }: { p: Project; onClose: () => 
                     <div className="text-[12px] text-muted-foreground">{e.date}</div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="text-[15px] font-semibold text-primary number-highlight">{formatSAR(e.amount)}</span>
+                    <span className="text-[15px] font-semibold text-primary number-highlight">{formatMoney(e.amount)}</span>
                     <button
                       onClick={() => removeExpense(e.id)}
                       className="grid h-8 w-8 place-items-center rounded-xl text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
