@@ -384,12 +384,15 @@ export const theme = {
    FORMATTERS
 ======================= */
 
+export function formatMoney(n: number, currency?: Currency): string {
+  const cur = currency ?? settings.get().currency;
+  const formatted = new Intl.NumberFormat("ar", { maximumFractionDigits: 0 }).format(Math.round(n));
+  return `${formatted} ${CURRENCY_SYMBOL[cur]}`;
+}
+
+/** @deprecated use formatMoney — kept for backward compatibility */
 export function formatSAR(n: number): string {
-  return (
-    new Intl.NumberFormat("ar", { maximumFractionDigits: 0 }).format(
-      Math.round(n)
-    ) + " ر.س"
-  );
+  return formatMoney(n);
 }
 
 export function formatNum(n: number, digits = 0): string {
